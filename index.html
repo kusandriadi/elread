@@ -193,7 +193,6 @@
             'tangan', 'telinga', 'topi', 'tali', 'tomat', 'ular', 'ubi', 'unta', 'uang', 'udang', 'vas', 'video', 'vitamin', 'voli', 'wajah', 'waktu', 'wortel',
             'xilofon', 'yoyo', 'yoga', 'yak', 'zebra', 'zona', 'zero', 'zodiak', 'zakat'
         ];
-        // UPDATED: Added Indonesian letter pronunciations
         const letterPronunciations = {
             'A': 'a', 'B': 'be', 'C': 'ce', 'D': 'de', 'E': 'e', 'F': 'ef', 'G': 'ge',
             'H': 'ha', 'I': 'i', 'J': 'je', 'K': 'ka', 'L': 'el', 'M': 'em', 'N': 'en',
@@ -249,11 +248,11 @@
             if (mode === 'learn-letters') {
                 learnTitle.textContent = 'Mengenal Huruf';
                 data = [...letters].sort(() => 0.5 - Math.random());
-                // UPDATED: Show sound button for letters
                 soundButton.classList.remove('hidden');
             } else { // learn-reading
                 learnTitle.textContent = 'Belajar Membaca';
-                data = words;
+                // UPDATED: Shuffle words for learning mode as well
+                data = [...words].sort(() => 0.5 - Math.random());
                 soundButton.classList.remove('hidden');
             }
             updateLearnView();
@@ -348,13 +347,12 @@
             }
         });
 
-        // UPDATED: Sound button now handles both letters and words
         soundButton.addEventListener('click', () => {
             if (currentMode === 'learn-reading') {
                 speak(data[currentIndex]);
             } else if (currentMode === 'learn-letters') {
-                const letterPair = data[currentIndex]; // e.g., "Aa"
-                const upperCaseLetter = letterPair.charAt(0); // e.g., "A"
+                const letterPair = data[currentIndex];
+                const upperCaseLetter = letterPair.charAt(0);
                 const pronunciation = letterPronunciations[upperCaseLetter];
                 if (pronunciation) {
                     speak(pronunciation);
